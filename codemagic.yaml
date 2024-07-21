@@ -5,7 +5,7 @@ workflows:
     environment:
       vars:
         NODE_VERSION: 14.17.0
-        EXPO_CLI_VERSION: 4.8.1
+        EXPO_CLI_VERSION: latest
       node: $NODE_VERSION
     scripts:
       - name: Install dependencies
@@ -13,19 +13,30 @@ workflows:
       - name: Set up React Native environment
         script: |
           npm install -g expo-cli@$EXPO_CLI_VERSION
+          expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
       - name: Build Android APK
         script: |
-          expo build:android --no-wait --non-interactive
-          mkdir -p $CM_BUILD_DIR/build_outputs/apk
-          mv $CM_BUILD_DIR/dist/*.apk $CM_BUILD_DIR/build_outputs/apk/
+          expo build:android --non-interactive || { echo "Expo build failed"; exit 1; }
+          if [ -f "$(ls $CM_BUILD_DIR/dist/*.apk 2>/dev/null)" ]; then
+            mkdir -p $CM_BUILD_DIR/build_outputs/apk
+            mv $CM_BUILD_DIR/dist/*.apk $CM_BUILD_DIR/build_outputs/apk/
+          else
+            echo "APK not found, build might have failed"
+            exit 1
+          fi
       - name: Build iOS IPA
         script: |
-          expo build:ios --no-wait --non-interactive
-          mkdir -p $CM_BUILD_DIR/build_outputs/ipa
-          mv $CM_BUILD_DIR/dist/*.ipa $CM_BUILD_DIR/build_outputs/ipa/
+          expo build:ios --non-interactive || { echo "Expo build failed"; exit 1; }
+          if [ -f "$(ls $CM_BUILD_DIR/dist/*.ipa 2>/dev/null)" ]; then
+            mkdir -p $CM_BUILD_DIR/build_outputs/ipa
+            mv $CM_BUILD_DIR/dist/*.ipa $CM_BUILD_DIR/build_outputs/ipa/
+          else
+            echo "IPA not found, build might have failed"
+            exit 1
+          fi
     artifacts:
       - build_outputs/**/*
     publishing:
       email:
         recipients:
-          - shakeebjasim.mail@gmail.com
+          - your.email@example.com
