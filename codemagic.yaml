@@ -6,6 +6,8 @@ workflows:
       vars:
         NODE_VERSION: 14.17.0
         EXPO_CLI_VERSION: latest
+        EXPO_USERNAME: shakeeb2024
+        EXPO_PASSWORD: 2262Sha@
       node: $NODE_VERSION
     scripts:
       - name: Install dependencies
@@ -39,4 +41,4 @@ workflows:
     publishing:
       email:
         recipients:
-          - your.email@example.com
+          - shakeebjasim.mail@gmail.com
