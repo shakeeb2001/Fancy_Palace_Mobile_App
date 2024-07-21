@@ -7,7 +7,7 @@ workflows:
         NODE_VERSION: 14.17.0
         EXPO_CLI_VERSION: latest
         EAS_CLI_VERSION: latest
-        EXPO_USERNAME: shakeeb2024
+        EXPO_USERNAME: shakeebjasim.mail@gmail.com
         EXPO_PASSWORD: 2262Sha@
       node: $NODE_VERSION
     scripts:
@@ -20,7 +20,7 @@ workflows:
           expo login --username $EXPO_USERNAME --password $EXPO_PASSWORD
       - name: Build Android APK
         script: |
-          eas build -p android --non-interactive || { echo "EAS build failed"; exit 1; }
+          eas build -p android --profile production --non-interactive || { echo "EAS build failed"; exit 1; }
           if [ -f "$(ls $CM_BUILD_DIR/build/*.apk 2>/dev/null)" ]; then
             mkdir -p $CM_BUILD_DIR/build_outputs/apk
             mv $CM_BUILD_DIR/build/*.apk $CM_BUILD_DIR/build_outputs/apk/
@@ -30,7 +30,7 @@ workflows:
           fi
       - name: Build iOS IPA
         script: |
-          eas build -p ios --non-interactive || { echo "EAS build failed"; exit 1; }
+          eas build -p ios --profile production --non-interactive || { echo "EAS build failed"; exit 1; }
           if [ -f "$(ls $CM_BUILD_DIR/build/*.ipa 2>/dev/null)" ]; then
             mkdir -p $CM_BUILD_DIR/build_outputs/ipa
             mv $CM_BUILD_DIR/build/*.ipa $CM_BUILD_DIR/build_outputs/ipa/

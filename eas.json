@@ -1,11 +1,11 @@
 {
   "build": {
-    "release": {
+    "production": {
       "android": {
-        "workflow": "managed"
+        "buildType": "apk"
       },
       "ios": {
-        "workflow": "managed"
+        "buildType": "release"
       }
     }
   }
