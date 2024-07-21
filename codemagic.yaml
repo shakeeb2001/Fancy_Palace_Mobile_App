@@ -1,0 +1,43 @@
+workflows:
+  react-native-workflow:
+    name: React Native Workflow
+    max_build_duration: 120
+    environment:
+      vars:
+        NODE_VERSION: 14.17.0
+        EXPO_CLI_VERSION: 4.8.1
+        # Add the following environment variables for iOS code signing
+        APP_STORE_CONNECT_ISSUER_ID: $APP_STORE_CONNECT_ISSUER_ID
+        APP_STORE_CONNECT_KEY_IDENTIFIER: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        APP_STORE_CONNECT_PRIVATE_KEY: $APP_STORE_CONNECT_PRIVATE_KEY
+      node: $NODE_VERSION
+    scripts:
+      - name: Install dependencies
+        script: npm install
+      - name: Set up React Native environment
+        script: |
+          npm install -g expo-cli@$EXPO_CLI_VERSION
+      - name: Set up code signing for iOS
+        script: |
+          mkdir -p $HOME/.config/flex-cli
+          echo "$APP_STORE_CONNECT_ISSUER_ID" > $HOME/.config/flex-cli/issuer_id
+          echo "$APP_STORE_CONNECT_KEY_IDENTIFIER" > $HOME/.config/flex-cli/key_id
+          echo "$APP_STORE_CONNECT_PRIVATE_KEY" > $HOME/.config/flex-cli/private_key
+          flex init
+          flex sign
+      - name: Build Android APK
+        script: |
+          expo build:android --no-wait --non-interactive
+          mkdir -p $CM_BUILD_DIR/build_outputs/apk
+          mv $CM_BUILD_DIR/dist/*.apk $CM_BUILD_DIR/build_outputs/apk/
+      - name: Build iOS IPA
+        script: |
+          expo build:ios --no-wait --non-interactive
+          mkdir -p $CM_BUILD_DIR/build_outputs/ipa
+          mv $CM_BUILD_DIR/dist/*.ipa $CM_BUILD_DIR/build_outputs/ipa/
+    artifacts:
+      - build_outputs/**/*
+    publishing:
+      email:
+        recipients:
+          - shakeebjasim.mail@gmail.com
