@@ -12,8 +12,8 @@ const categories = {
   ricecooker: 'https://fancy-palace-backend.vercel.app/ricecooker',
   soundsystem: 'https://fancy-palace-backend.vercel.app/soundsystem',
   torch: 'https://fancy-palace-backend.vercel.app/torch',
-  'plastic-metal': 'https://fancy-palace-backend.vercel.app/plastic-metal',
-  ceramic: 'https://fancy-palace-backend.vercel.app/api/ceramic',
+  'plastic-metal': 'https://fancy-palace-backend.vercel.app/metal',
+  ceramic: 'https://fancy-palace-backend.vercel.app/api/ceremic',
 };
 
 const CustomCheckbox = ({ isChecked, onChange, label }) => (

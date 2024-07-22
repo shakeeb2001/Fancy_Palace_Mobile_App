@@ -13,7 +13,7 @@ const categories = {
   ricecooker: 'https://fancy-palace-backend.vercel.app/ricecooker',
   soundsystem: 'https://fancy-palace-backend.vercel.app/soundsystem',
   torch: 'https://fancy-palace-backend.vercel.app/torch',
-  'plastic-metal': 'https://fancy-palace-backend.vercel.app/plastic-metal',
+  'plastic-metal': 'https://fancy-palace-backend.vercel.app/metal',
 };
 
 const ItemsScreen = () => {
